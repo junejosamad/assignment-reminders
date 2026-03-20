@@ -1,0 +1,11 @@
+# Never commit these
+token.json
+credentials.json
+assignments.db
+cron.log
+debug_*.html
+debug_*.txt
+__pycache__/
+*.pyc
+venv/
+.env

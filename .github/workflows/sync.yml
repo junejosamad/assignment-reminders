@@ -1,0 +1,55 @@
+name: Bahria Assignment Sync
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # Every 6 hours
+  workflow_dispatch:          # Allow manual trigger from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Restore assignments.db from cache so we don't re-add old events
+      - name: Restore assignments DB cache
+        uses: actions/cache@v4
+        with:
+          path: assignments.db
+          key: assignments-db-${{ github.run_id }}
+          restore-keys: |
+            assignments-db-
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Write token.json from secret (stored as base64)
+      - name: Write token.json
+        run: echo "${{ secrets.GOOGLE_TOKEN_B64 }}" | base64 -d > token.json
+
+      # Write credentials.json from secret (stored as base64)
+      - name: Write credentials.json
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS_B64 }}" | base64 -d > credentials.json
+
+      - name: Run sync
+        env:
+          BAHRIA_USER: ${{ secrets.BAHRIA_USER }}
+          BAHRIA_PASS: ${{ secrets.BAHRIA_PASS }}
+        run: python sync.py
+
+      # Save updated token.json back as secret isn't possible,
+      # but token auto-refreshes and we save it to file — cache it for next run
+      - name: Upload refreshed token
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: token-refreshed
+          path: token.json
+          retention-days: 1
