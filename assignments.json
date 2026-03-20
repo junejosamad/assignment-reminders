@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Lab Report 1",
+    "due_date": "2026-04-15T23:59:00+00:00",
+    "course": "CHEM 101",
+    "description": "Submit via the course portal. Remember to include graphs.",
+    "reminder_minutes": [60, 1440]
+  },
+  {
+    "title": "Essay – Chapter 3 Analysis",
+    "due_date": "2026-04-20T17:00:00+00:00",
+    "course": "ENG 201",
+    "description": "Minimum 1500 words. MLA formatting required.",
+    "reminder_minutes": [120, 1440, 10080]
+  },
+  {
+    "title": "Problem Set 4",
+    "due_date": "2026-05-01T23:59:00+00:00",
+    "course": "MATH 301",
+    "description": "Problems 1-20 from chapter 8.",
+    "reminder_minutes": [60, 1440]
+  }
+]
