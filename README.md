@@ -9,7 +9,7 @@ Automation script that scrapes Bahria University LMS assignments and syncs new o
 - Scheduled workflow (`.github/workflows/sync.yml`) runs every 6 hours and can also be triggered manually.
 
 ## Local setup
-1. **Requirements**: Python 3.11 (officially tested; newer 3.11+ versions are unverified), Google Calendar API enabled in your Google Cloud project.
+1. **Requirements**: Python 3.11 (officially tested; Python 3.12+ not yet verified), Google Calendar API enabled in your Google Cloud project.
 2. **Install dependencies**:  
    ```bash
    pip install -r requirements.txt
