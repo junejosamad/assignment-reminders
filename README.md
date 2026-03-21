@@ -9,7 +9,7 @@ Automation script that scrapes Bahria University LMS assignments and syncs new o
 - Scheduled workflow (`.github/workflows/sync.yml`) runs every 6 hours and can also be triggered manually.
 
 ## Local setup
-1. **Requirements**: Python 3.11 (used in CI; 3.11+ should work), Google Calendar API enabled in your Google Cloud project.
+1. **Requirements**: Python 3.11 (officially tested; newer 3.11+ versions are unverified), Google Calendar API enabled in your Google Cloud project.
 2. **Install dependencies**:  
    ```bash
    pip install -r requirements.txt
@@ -50,6 +50,6 @@ python encode_secrets.py token.json
 - `.github/workflows/sync.yml` – scheduled GitHub Actions workflow
 
 ## Troubleshooting
-- Check `cron.log` (created in the repo root when running locally) for run output and `debug_*.html/txt` files (if present) for captured LMS pages.
-- In GitHub Actions, view the job logs for runtime output. Persist `cron.log` as an artifact if you need to inspect it after a workflow run.
+- Check `cron.log` (written to the repo root both locally and in GitHub Actions) for run output and `debug_*.html/txt` files (if present) for captured LMS pages.
+- In GitHub Actions, `cron.log` lives in the workspace for that run but is not uploaded automatically—use the step logs for quick inspection or upload the file as an artifact if you need to retain it.
 - If events stop appearing, regenerate `token.json` with `auth.py` and update `GOOGLE_TOKEN_B64`.
