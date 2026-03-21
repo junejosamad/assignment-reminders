@@ -37,7 +37,7 @@ LMS_DASH_URL     = f"{LMS_BASE}/Student/Dashboard.php"
 
 LMS_USER         = os.environ.get("BAHRIA_USER", "YOUR_ERP_ID_HERE")  # e.g. 01-131232-006
 LMS_PASS         = os.environ.get("BAHRIA_PASS", "YOUR_PASSWORD_HERE")
-LMS_INSTITUTE_ID = "1"   # 1=ISB E-8, 9=ISB H-11, 2=Karachi, 3=Lahore
+LMS_INSTITUTE_ID = "9"   # 1=ISB E-8, 9=ISB H-11, 2=Karachi, 3=Lahore
 
 # ── Google Calendar Config ────────────────────────────────
 SCOPES      = ["https://www.googleapis.com/auth/calendar"]
