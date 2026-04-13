@@ -19,6 +19,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+import google.auth.exceptions
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -383,7 +384,16 @@ def get_calendar_service():
         raise FileNotFoundError(f"token.json not found. Run auth.py locally first.")
     creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
     if creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+        try:
+            creds.refresh(Request())
+        except google.auth.exceptions.RefreshError as e:
+            raise RuntimeError(
+                f"Google OAuth token refresh failed ({e}). "
+                "The token has expired or been revoked. "
+                "Re-run auth.py locally to generate a new token.json, "
+                "then update the GOOGLE_TOKEN_B64 secret: "
+                "base64 -w0 token.json | pbcopy"
+            ) from e
         with open(TOKEN_FILE, "w") as f:
             f.write(creds.to_json())
     return build("calendar", "v3", credentials=creds)
@@ -437,7 +447,7 @@ def main():
 
     try:
         service = get_calendar_service()
-    except FileNotFoundError as e:
+    except (FileNotFoundError, RuntimeError) as e:
         log.error(str(e))
         sys.exit(1)
 
